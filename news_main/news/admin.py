@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Article, User
+from .models import Article
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
 
 
 # class ArticleAdmin(admin.ModelAdmin):
@@ -14,14 +16,25 @@ from .models import Article, User
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'description')
+# ok .through is defining a table that connects the many to many relationship
+class ArticleInline(admin.TabularInline):
+    model = Article.user.through
+    extra = 1
 
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    class ArticleInline(admin.TabularInline):
-        model = Article
+
+class CustomUserAdmin(UserAdmin):
     inlines = [ArticleInline]
-    list_display = ('email',)
+
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
+# @admin.register(User)
+# class UserAdmin(admin.ModelAdmin):
+#     class ArticleInline(admin.TabularInline):
+#         model = Article
+#     inlines = [ArticleInline]
+#     list_display = ('email',)
 
 
 
