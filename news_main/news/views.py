@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 from rest_framework import generics
 from .serializers import ArticleSerializer
 from .models import Article
@@ -10,6 +12,7 @@ from .serializers import UserSerializer
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
@@ -23,3 +26,12 @@ class UserRegistrationView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# def my_view(req):
+#     username = req.POST['username']
+#     password = req.POST['password']
+#     user = authenticate(req,username=username,password=password)
+#     if user is not None:
+#         login(req,user)
+#     else:
+#         print('heheh')
