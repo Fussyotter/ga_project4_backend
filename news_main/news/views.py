@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from rest_framework import generics
 from .serializers import ArticleSerializer
@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
+from django.http import HttpResponse
+from django.views import View
 
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
@@ -26,12 +28,25 @@ class UserRegistrationView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserLoginView(View):
+ 
+    def post(self, req):
+        username = req.POST.get('username')
+        password = req.POST.get('password')
+
+        if username is None or password is None:
+            return HttpResponse(status=400)
+
+        user = authenticate(req, username=username, password=password)
+        if user is not None:
+            login(req, user)
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=400)
+
+    def delete(self, req):
+        logout(req)
+        return HttpResponse(status=200)
     
-# def my_view(req):
-#     username = req.POST['username']
-#     password = req.POST['password']
-#     user = authenticate(req,username=username,password=password)
-#     if user is not None:
-#         login(req,user)
-#     else:
-#         print('heheh')
