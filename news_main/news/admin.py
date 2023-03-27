@@ -17,7 +17,7 @@ from django.contrib.auth.admin import UserAdmin
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')
-# ok .through is defining a table that connects the many to many relationship
+# ok .through is defining a table that connects the many to many relationship.  through is an intermediary table for many to many
 class ArticleInline(admin.TabularInline):
     model = Article.user.through
     extra = 1
