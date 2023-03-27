@@ -23,9 +23,7 @@ class Article(models.Model):
     # trying one to many relationship
     # needs a default, kept getting errors
     # user has to be declared first if i'm using a custom one.
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    # This column needed to be clean
-    def __str__(self): return self.title
+
 
 #     def __str__(self):
 #         return self.email

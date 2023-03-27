@@ -1,9 +1,5 @@
 from django.shortcuts import render, redirect
-<<<<<<< HEAD
 from django.contrib.auth import login, authenticate
-=======
-from django.contrib.auth import login
->>>>>>> 6dd9718 (redid model for user and swapped to default django)
 from django.contrib.auth.forms import UserCreationForm
 from rest_framework import generics
 from .serializers import ArticleSerializer
