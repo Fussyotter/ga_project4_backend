@@ -29,12 +29,15 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+<<<<<<< HEAD
 # @admin.register(User)
 # class UserAdmin(admin.ModelAdmin):
 #     class ArticleInline(admin.TabularInline):
 #         model = Article
 #     inlines = [ArticleInline]
 #     list_display = ('email',)
+=======
+>>>>>>> 6dd9718 (redid model for user and swapped to default django)
 
 
 
