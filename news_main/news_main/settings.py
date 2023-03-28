@@ -36,6 +36,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'djoser',
+    'rest_framework.authtoken',
     'corsheaders',
     'rest_framework',
     'news',
@@ -59,6 +61,17 @@ MIDDLEWARE = [
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+DJOSER = {
+    "USER_ID_FIELD": "username"
+}
 
 ROOT_URLCONF = 'news_main.urls'
 
