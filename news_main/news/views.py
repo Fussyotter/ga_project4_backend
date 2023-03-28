@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponse
+from django.views import View
 from rest_framework import generics
 from .serializers import ArticleSerializer
 from .models import Article
@@ -8,21 +11,21 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
-from django.http import HttpResponse
-from django.views import View
+
 
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    
+
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 # Create your views here.
 
+
 class UserRegistrationView(APIView):
-    def post(self,request):
+    def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -31,7 +34,6 @@ class UserRegistrationView(APIView):
 
 
 class UserLoginView(View):
- 
     def post(self, req):
         username = req.POST.get('username')
         password = req.POST.get('password')
@@ -49,4 +51,3 @@ class UserLoginView(View):
     def delete(self, req):
         logout(req)
         return HttpResponse(status=200)
-    
