@@ -59,6 +59,7 @@ MIDDLEWARE = [
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
+
 ROOT_URLCONF = 'news_main.urls'
 
 TEMPLATES = [
