@@ -32,7 +32,7 @@ class UserRegistrationView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# not using the below really at all, i just left it in because it was first attempt before djoser
 class UserLoginView(View):
     def post(self, req):
         username = req.POST.get('username')

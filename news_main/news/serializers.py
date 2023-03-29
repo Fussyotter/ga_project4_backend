@@ -3,9 +3,13 @@ from .models import Article
 from django.contrib.auth.models import User
 
 class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Article
-        fields = ('id', 'author','title','description','url','publishedAt')
+        fields = '__all__'
+
+
 # testing this to see if I can keep similar format
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
