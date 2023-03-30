@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.views.decorators.csrf import csrf_protect
+from rest_framework.decorators import api_view
 from django.http import HttpResponse
 from django.views import View
 from rest_framework import generics
@@ -12,16 +12,27 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
 
+#  this is to try and get around my post article with user relationship issue.  trying to tie it to auth
 
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+
+    def perform_create(self, serializer):
+        # this finally worked.  saving user as list got around the issues
+        serializer.save(user=[self.request.user])
 
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 # Create your views here.
+
+class ArticlesByUserView(APIView):
+    def get(self, request, username):
+        articles = Article.objects.filter(user__username=username)
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserRegistrationView(APIView):
