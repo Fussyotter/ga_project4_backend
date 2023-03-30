@@ -10,11 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 
+from pathlib import Path
+import dj_database_url
 from dotenv import load_dotenv
 import os
 load_dotenv()
+# import environ
+
+# env = environ.Env()
+# environ.Env.read_env()
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -97,17 +103,22 @@ WSGI_APPLICATION = 'news_main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'localhost'
-        # most likely going to make changes on deployment
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('DB_USER'),
+#         'PASSWORD': os.getenv('DB_PASSWORD'),
+#         'HOST': 'localhost'
+#         # most likely going to make changes on deployment
+#     }
+# }
+# RENDER postgres database
+import dj_database_url
 
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -144,6 +155,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
