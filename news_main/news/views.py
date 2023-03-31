@@ -24,6 +24,12 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 # Create your views here.
 
 
+class ArticlesByUserView(APIView):
+    def get(self, request, username):
+        articles = Article.objects.filter(user__username=username)
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class UserRegistrationView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
